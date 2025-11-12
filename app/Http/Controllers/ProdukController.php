@@ -23,10 +23,19 @@ class ProdukController extends Controller
     //     return view('penjual.lihatproduk', compact('produks'));
     // }
 
-    public function index()
+//     public function index()
+// {
+//     // Tampilkan semua produk tanpa login
+//     $produks = Produk::all(); // atau filter tertentu jika mau
+//     return view('penjual.lihatproduk', compact('produks'));
+// }
+public function index()
 {
-    // Tampilkan semua produk tanpa login
-    $produks = Produk::all(); // atau filter tertentu jika mau
+    $penjual = auth()->user()->penjual; // pastikan profil penjual ada
+    $produks = Produk::where('penjual_id', $penjual->id)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
     return view('penjual.lihatproduk', compact('produks'));
 }
 

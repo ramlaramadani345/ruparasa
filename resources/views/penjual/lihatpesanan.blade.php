@@ -38,7 +38,7 @@
                                 <span class="badge badge-warning">Dikemas</span>
                             @elseif($p->status == 'dikirim')
                                 <span class="badge badge-primary">Dikirim</span>
-                            @elseif($p->status == 'diterima')
+                            @elseif($p->status == 'selesai')
                                 <span class="badge badge-success">Selesai</span>
                             @else
                                 <span class="badge badge-secondary">{{ ucfirst($p->status) }}</span>

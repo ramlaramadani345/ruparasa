@@ -38,7 +38,7 @@
                             </ul>
                         </li>
 
-                       
+
 
                         <!-- MENU PUSTAKA BUDAYA DENGAN DROPDOWN -->
                         <li class="has-children">
@@ -61,11 +61,29 @@
                 <!-- MENU LOGIN DAN BURGER ICON -->
                 <div class="col-6 col-lg-3 text-lg-end">
                     <ul class="js-clone-nav d-none d-lg-inline-block text-end site-menu">
-                        <li class="cta-button"><a href="{{ route('login') }}">Login</a></li>
+                        @guest
+                            <!-- Kalau belum login -->
+                            <li class="cta-button"><a href="{{ route('login') }}">Login</a></li>
+                        @endguest
+
+                        @auth
+                            <!-- Kalau sudah login -->
+                             <li><span>Halo, {{ Auth::user()->name }}</span></li>
+                            <li class="cta-button"><a href="{{ route('logout') }}"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    Logout
+                                </a></li>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        @endauth
                     </ul>
 
+
                     <!-- BURGER UNTUK MOBILE -->
-                    <a href="#" class="burger ms-auto float-end site-menu-toggle js-menu-toggle d-inline-block d-lg-none light"
+                    <a href="#"
+                        class="burger ms-auto float-end site-menu-toggle js-menu-toggle d-inline-block d-lg-none light"
                         data-toggle="collapse" data-target="#main-navbar">
                         <span></span>
                     </a>

@@ -27,16 +27,16 @@
             <p>Status: <span class="fw-bold text-orange">{{ ucfirst($p->status) }}</span></p>
 
             {{-- Tombol Terima --}}
-            @if($p->status === 'dikirim')
-                <form id="form-terima-{{ $p->id }}" action="{{ route('pesanan.terima', $p->id) }}" method="POST">
-                    @csrf
-                    <button type="button" class="btn btn-success mt-2" onclick="konfirmasiTerima({{ $p->id }})">
-                        <i class="fas fa-check"></i> Pesanan Diterima
-                    </button>
-                </form>
-            @elseif($p->status === 'diterima')
-                <span class="badge bg-success mt-2 p-2">Pesanan Selesai</span>
-            @endif
+@if($p->status === 'dikirim')
+    <form id="form-terima-{{ $p->id }}" action="{{ route('pesanan.terima', $p->id) }}" method="POST">
+        @csrf
+        <button type="button" class="btn btn-success mt-2" onclick="konfirmasiTerima({{ $p->id }})">
+            <i class="fas fa-check"></i> Pesanan Diterima
+        </button>
+    </form>
+@elseif($p->status === 'selesai') {{-- ganti dari 'diterima' jika enum = 'selesai' --}}
+    <span class="badge bg-success mt-2 p-2">Pesanan Selesai</span>
+@endif
         </div>
     </div>
     @empty

@@ -12,34 +12,23 @@ use Illuminate\Http\Request;
 
 class penjualController extends Controller
 {
-public function index()
+    public function index()
     {
-        // Total produk
-        $totalProduk = Produk::count();
+        $user = auth()->user();
+        $penjual = $user->penjual; // pastikan relasi ada
 
-        // Total pesanan
-        $totalPesanan = Pesanan::count();
-
-    
-
-        // Cek nama kolom total
-        if (Schema::hasColumn('pesanans', 'total_harga')) {
-            $kolomTotal = 'total_harga';
-        } elseif (Schema::hasColumn('pesanans', 'total')) {
-            $kolomTotal = 'total';
-        } else {
-            $kolomTotal = null;
+        // (Opsional) kalau profil penjual belum dibuat
+        if (!$penjual) {
+            return redirect()->route('penjual.profile.edit')
+                ->with('success', 'Lengkapi profil penjual terlebih dahulu.');
         }
+        $totalProduk = Produk::where('penjual_id', $penjual->id)->count();
 
-        // Hitung total pendapatan (jika kolom ada)
-        $totalPendapatan = $kolomTotal
-            ? Pesanan::where('status', 'selesai')->sum($kolomTotal)
-            : 0;
+        // === TOTAL PESANAN yang mengandung produk milik penjual ini ===
+        $totalPesanan = Pesanan::whereHas('items.produk', function ($q) use ($penjual) {
+            $q->where('penjual_id', $penjual->id);
+        })->count();
 
-        // Ambil data terbaru
-        $produk = Produk::latest()->take(5)->get();
-        $pesanan = Pesanan::latest()->take(5)->get();
-        
 
         return view('penjual.dashboard', compact(
             'totalProduk',
@@ -47,7 +36,8 @@ public function index()
         ));
     }
 
-    public function Penjual(){
+    public function Penjual()
+    {
         return view('penjual.dashboard');
     }
 }

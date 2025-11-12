@@ -13,7 +13,7 @@ class Produk extends Model
     // Relasi ke Toko / Penjual
     public function penjual()
     {
-        return $this->belongsTo(Toko::class, 'penjual_id');
+        return $this->belongsTo(Penjual::class, 'penjual_id');
     }
 
     public function items()
@@ -21,6 +21,11 @@ class Produk extends Model
     return $this->hasMany(PesananItem::class, 'produk_id');
 }
 
+public function toko()
+{
+    // kalau di tabel produks kolom foreign key-nya bernama 'penjual_id'
+    return $this->belongsTo(Toko::class, 'penjual_id');
+}
 
 
 }
