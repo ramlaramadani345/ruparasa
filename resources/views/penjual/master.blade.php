@@ -100,7 +100,7 @@
                         <!-- Dropdown -->
                         <!-- Dropdown -->
 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
-    <a class="dropdown-item" href="{{ route('penjual.editprofil') }}">
+    <a class="dropdown-item" href="{{ route('penjual.profile.edit') }}">
         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Profil Toko
     </a>
     <div class="dropdown-divider"></div>

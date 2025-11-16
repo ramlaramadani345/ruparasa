@@ -37,8 +37,9 @@
     </form>
 </div>
 
-{{-- ✅ CKEditor 4 Full Build --}}
+{{-- CKEditor Full --}}
 <script src="https://cdn.ckeditor.com/4.22.1/full-all/ckeditor.js"></script>
+
 <script>
 CKEDITOR.replace('editor', {
     height: 300,

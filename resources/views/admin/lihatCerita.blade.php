@@ -31,7 +31,7 @@
                     <span class="badge bg-success">Diterima</span>
                 </td>
                 <td class="text-center">
-                    <a href="{{ route('cerita.show', $c->id) }}" class="btn btn-info btn-sm text-white">Detail</a>
+                    <a href="{{ route('admin.cerita.show', $c->id) }}" class="btn btn-info btn-sm text-white">Detail</a>
                     <a href="{{ route('cerita.edit', $c->id) }}" class="btn btn-warning btn-sm">Edit</a>
                     <form action="{{ route('cerita.destroy', $c->id) }}" method="POST" class="d-inline">
                         @csrf @method('DELETE')

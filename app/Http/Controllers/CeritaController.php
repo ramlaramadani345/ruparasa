@@ -143,6 +143,12 @@ class CeritaController extends Controller
             ->with('success', '✅ Status cerita berhasil diperbarui.');
     }
 
+    public function show($id)
+{
+    $cerita = Cerita::findOrFail($id);
+    return view('admin.detailCerita', compact('cerita'));
+}
+
     // ================= USER =================
     public function userCreate()
     {
@@ -194,10 +200,11 @@ class CeritaController extends Controller
         return view('dashboard.Cerita', compact('ceritas'));
     }
 
-    public function show($id)
+public function userShow($id)
 {
     $cerita = Cerita::findOrFail($id);
-    return view('admin.detailCerita', compact('cerita'));
+
+    return view('dashboard.detailcerita', compact('cerita'));
 }
 
 }

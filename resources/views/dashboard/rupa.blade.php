@@ -53,42 +53,83 @@
     @else
         <div class="row">
             @foreach($rupa as $rp)
+                @php
+                    $ext = strtolower(pathinfo($rp->file_path, PATHINFO_EXTENSION));
+                    $modalId = 'modalRupa' . $rp->id;
+                @endphp
+
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm h-100">
                         <div class="card-body text-center">
 
-                            <!-- Preview -->
-                            @php
-                                $ext = strtolower(pathinfo($rp->file_path, PATHINFO_EXTENSION));
-                            @endphp
-
+                            {{-- PREVIEW --}}
                             @if (in_array($ext, ['jpg', 'jpeg', 'png']))
                                 <img src="{{ asset('storage/' . $rp->file_path) }}"
-                                     alt="{{ $rp->judul }}"
-                                     class="img-fluid rounded mb-3"
-                                     style="max-height: 250px; object-fit: cover;">
+                                    alt="{{ $rp->judul }}"
+                                    class="img-fluid rounded mb-3"
+                                    style="max-height: 250px; object-fit: cover;">
                             @elseif (in_array($ext, ['mp4', 'mov', 'avi']))
                                 <video width="100%" height="250" controls class="rounded mb-3">
                                     <source src="{{ asset('storage/' . $rp->file_path) }}" type="video/mp4">
-                                    Browser tidak mendukung video tag.
                                 </video>
                             @endif
 
-                            <!-- Judul -->
+                            {{-- JUDUL --}}
                             <h5 class="card-title text-orange">{{ $rp->judul }}</h5>
 
-                            <!-- Deskripsi -->
-                            <p class="card-text text-muted">
-                                {{ Str::limit($rp->deskripsi, 100) }}
-                            </p>
+                            {{-- DESKRIPSI --}}
+                            <p class="card-text text-muted">{{ Str::limit($rp->deskripsi, 100) }}</p>
 
-                            <!-- Tipe -->
-                            <span class="badge bg-primary">{{ $rp->tipe }}</span>
+                            {{-- TIPE --}}
+                            <span class="badge bg-primary mb-3">{{ $rp->tipe }}</span>
+
+                            {{-- 🔸 TOMBOL LIHAT RUPA (dipindahkan ke bawah) --}}
+                            <div class="d-grid">
+                                <button class="btn btn-warning"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#{{ $modalId }}">
+                                    Lihat Rupa
+                                </button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
+
+                {{-- 🔹 MODAL POPUP --}}
+                <div class="modal fade" id="{{ $modalId }}" tabindex="-1">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h5 class="modal-title">{{ $rp->judul }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body text-center">
+
+                                @if (in_array($ext, ['jpg', 'jpeg', 'png']))
+                                    <img src="{{ asset('storage/' . $rp->file_path) }}"
+                                        alt="{{ $rp->judul }}"
+                                        class="img-fluid rounded"
+                                        style="max-height: 500px; object-fit: contain;">
+                                @elseif (in_array($ext, ['mp4', 'mov', 'avi']))
+                                    <video width="100%" controls class="rounded">
+                                        <source src="{{ asset('storage/' . $rp->file_path) }}" type="video/mp4">
+                                    </video>
+                                @endif
+
+                                <p class="mt-3 text-muted">{{ $rp->deskripsi }}</p>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
             @endforeach
         </div>
     @endif
 </div>
+
 @endsection

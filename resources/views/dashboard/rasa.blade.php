@@ -11,25 +11,19 @@
 
 <div class="container py-5" style="font-family: 'Inter', sans-serif;">
 
-    {{-- ✅ Alert jika berhasil menambah resep --}}
+    {{-- Alert jika berhasil --}}
     @if (session('success'))
-    <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
     @endif
 
-    <!-- 🧡 Header Section -->
+    <!-- Header -->
     <div class="row mb-4">
         <div class="col-lg-6">
             <h2 class="fw-bold text-orange text-uppercase">Daftar Resep</h2>
         </div>
-        {{-- Jika ingin menambah resep manual, aktifkan tombol di bawah --}}
-        {{-- <div class="col-lg-6 text-end">
-            <button class="btn btn-orange rounded-pill" data-bs-toggle="modal" data-bs-target="#tambahResepModal">
-                <i class="bi bi-plus-circle"></i> Tambah Resep
-            </button>
-        </div> --}}
     </div>
 
     <!-- 🥘 Daftar Kartu Resep -->
@@ -37,6 +31,8 @@
         @forelse($reseps as $resep)
             <div class="col-md-4 mb-4">
                 <div class="card h-100 shadow-sm border-0">
+
+                    {{-- Gambar --}}
                     @if($resep->gambar)
                         <img src="{{ asset('storage/' . $resep->gambar) }}" class="card-img-top" alt="{{ $resep->nama_rasa }}" style="height: 220px; object-fit: cover;">
                     @else
@@ -44,15 +40,21 @@
                     @endif
 
                     <div class="card-body d-flex flex-column">
+
                         <h5 class="card-title fw-bold text-orange">{{ $resep->nama_rasa }}</h5>
 
-                        <!-- 🏝️ Provinsi Asal -->
+                        {{-- Provinsi --}}
                         @if(!empty($resep->provinsi_asal))
-                            <p class="text-muted mb-2"><i class="bi bi-geo-alt-fill text-orange"></i> {{ $resep->provinsi_asal }}</p>
+                            <p class="text-muted mb-2">
+                                <i class="bi bi-geo-alt-fill text-orange"></i> {{ $resep->provinsi_asal }}
+                            </p>
                         @endif
 
-                        <p class="card-text text-muted text-truncate">{{ $resep->resep }}</p>
-                        <a href="{{ route('rasa.show', $resep->id) }}" class="btn btn-outline-orange mt-auto rounded-pill">Lihat Resep</a>
+
+                        {{-- Tombol --}}
+                        <a href="{{ route('rasa.show', $resep->id) }}" 
+                           class="btn btn-outline-orange mt-auto rounded-pill">Lihat Resep</a>
+
                     </div>
                 </div>
             </div>
@@ -63,7 +65,7 @@
         @endforelse
     </div>
 
-    {{-- 📄 Pagination --}}
+    {{-- Pagination --}}
     <div class="d-flex justify-content-center mt-3">
         {{ $reseps->links() }}
     </div>
@@ -74,7 +76,7 @@
 
 </div>
 
-<!-- 🧩 Style Header & Kartu -->
+<!-- 🧩 STYLE -->
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
@@ -82,7 +84,6 @@ body, h1, h2, h3, h4, h5, h6, p, button, input, textarea {
     font-family: 'Inter', sans-serif !important;
 }
 
-/* 🧡 HEADER DENGAN GAMBAR */
 .header-resep {
     background: url('/images/bg-rasa.jpg') center center/cover no-repeat;
     border-radius: 0 0 20px 20px;
@@ -93,15 +94,18 @@ body, h1, h2, h3, h4, h5, h6, p, button, input, textarea {
     justify-content: center;
     align-items: center;
 }
+
 .header-resep .header-overlay {
     background-color: rgba(220, 212, 212, 0.45);
     padding: 40px;
     border-radius: 15px;
 }
+
 .title-white {
     color: #ffffff;
     text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
 }
+
 .subtitle-white {
     color: #ffffff;
     opacity: 0.95;
@@ -110,7 +114,6 @@ body, h1, h2, h3, h4, h5, h6, p, button, input, textarea {
 
 .text-orange { color: #f77f00 !important; }
 
-/* 🧡 Tombol */
 .btn-orange {
     background-color: #f77f00;
     color: #fff;
@@ -128,4 +131,5 @@ body, h1, h2, h3, h4, h5, h6, p, button, input, textarea {
     color: #fff;
 }
 </style>
+
 @endsection

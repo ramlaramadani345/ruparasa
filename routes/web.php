@@ -12,6 +12,8 @@ use App\Http\Controllers\{
 // =====================================================
 // 🏠 HALAMAN UTAMA (PUBLIC)
 // =====================================================
+Route::get('/home', [Dashboard::class, 'index'])->name('home');
+Route::get('/petaa', [Dashboard::class, 'peta']);
 Route::get('/', fn() => view('welcome'));
 Route::get('/sulawesi-map', fn() => view('home'))->name('map.sulawesi');
 Route::get('/informasi/{provinsi}', fn($provinsi) => view("informasi.$provinsi"));
@@ -54,8 +56,6 @@ Route::prefix('pustaka')->group(function () {
 // 👤 USER AREA (ROLE: USER)
 // =====================================================
 Route::middleware(['auth', 'role:user'])->group(function () {
-    Route::get('/home', [Dashboard::class, 'index'])->name('home');
-    Route::get('/petaa', [Dashboard::class, 'peta']);
 
     // Marketplace
     Route::get('/toko', [tokoController::class, 'index'])->name('toko.index');
@@ -80,6 +80,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         Route::get('/tambah', [CeritaController::class, 'userCreate'])->name('cerita.userCreate');
         Route::post('/tambah', [CeritaController::class, 'userStore'])->name('cerita.userStore');
         Route::get('/{id}', [CeritaController::class, 'show'])->name('cerita.show');
+        Route::get('/cerita/detail/{id}', [CeritaController::class, 'userShow'])->name('cerita.userShow');
     });
 
     // Agenda Budaya User
@@ -97,11 +98,16 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 // 💼 PENJUAL AREA (ROLE: PENJUAL)
 // =====================================================
 Route::middleware(['auth', 'role:penjual'])->group(function () {
-    Route::get('/dashboardpenjual', [penjualController::class, 'Penjual'])->name('penjual');
+    Route::get('/dashboardpenjual', [penjualController::class, 'index'])->name('penjual');
 
     // Profil Penjual
-    Route::get('/penjual/profil', [PenjualProfileController::class, 'edit'])->name('penjual.editprofil');
-    Route::put('/penjual/profil', [PenjualProfileController::class, 'update'])->name('penjual.profile.update');
+    Route::get('/penjual/profile/edit', [PenjualProfileController::class, 'editProfile'])->name('penjual.profile.edit');
+    Route::put('/penjual/profile/akun', [PenjualProfileController::class, 'updateAkun'])->name('penjual.profile.updateAkun');
+    Route::put('/penjual/profile/toko', [PenjualProfileController::class, 'updateToko'])->name('penjual.profile.updateToko');
+    Route::post('/penjual/profile/password', [PenjualProfileController::class, 'updatePassword'])->name('penjual.profile.updatePassword');
+
+    // Route::get('/penjual/profil', [PenjualProfileController::class, 'edit'])->name('penjual.editprofil');
+    // Route::put('/penjual/profil', [PenjualProfileController::class, 'update'])->name('penjual.profile.update');
 
     // Produk Penjual
     Route::prefix('penjual')->group(function () {
@@ -206,7 +212,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/', [CeritaController::class, 'index'])->name('cerita.index');
         Route::get('/create', [CeritaController::class, 'create'])->name('cerita.create');
         Route::post('/', [CeritaController::class, 'store'])->name('cerita.store');
-        Route::get('/cerita/{id}', [CeritaController::class, 'show'])->name('cerita.show');
+        Route::get('/cerita/{id}', [CeritaController::class, 'show'])->name('admin.cerita.show');
         Route::get('/{id}/edit', [CeritaController::class, 'edit'])->name('cerita.edit');
         Route::put('/{id}', [CeritaController::class, 'update'])->name('cerita.update');
         Route::delete('/{id}', [CeritaController::class, 'destroy'])->name('cerita.destroy');

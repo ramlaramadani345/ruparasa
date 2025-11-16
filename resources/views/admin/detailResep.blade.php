@@ -9,12 +9,13 @@
 
         <div class="mb-3">
             <strong>Resep:</strong>
-            <p class="mt-2 text-justify">{{ $resep->resep ?? 'Tidak ada data resep.' }}</p>
+            <div class="mt-2 text-justify">{!! $resep->resep !!}</div>
+
         </div>
 
         <div class="mb-3">
             <strong>Sejarah:</strong>
-            <p class="mt-2 text-justify">{{ $resep->sejarah ?? 'Tidak ada sejarah.' }}</p>
+            <div class="mt-2 text-justify">{!! $resep->sejarah !!}</div>
         </div>
 
         <div class="mb-3">
